@@ -36,10 +36,14 @@ class XPathParserTest {
       assertEquals((Double) 5.8d, parser.evalDouble("/employee/height"));
       assertEquals("${id_var}", parser.evalString("/employee/@id"));
       assertEquals(Boolean.TRUE, parser.evalBoolean("/employee/active"));
+
+      //id
       assertEquals("<id>${id_var}</id>", parser.evalNode("/employee/@id").toString().trim());
       assertEquals(7, parser.evalNodes("/employee/*").size());
       XNode node = parser.evalNode("/employee/height");
+      //某节点路径
       assertEquals("employee/height", node.getPath());
+      //某节点基于整个dom定义的路径
       assertEquals("employee[${id_var}]_height", node.getValueBasedIdentifier());
     }
   }

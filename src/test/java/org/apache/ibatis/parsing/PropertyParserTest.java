@@ -31,6 +31,7 @@ class PropertyParserTest {
     props.setProperty("orderColumn", "member_id");
     props.setProperty("a:b", "c");
     Assertions.assertThat(PropertyParser.parse("${key}", props)).isEqualTo("value");
+    //aaaa是默认值 ：是默认值分隔符，可自定义，见 applyCustomSeparator()
     Assertions.assertThat(PropertyParser.parse("${key:aaaa}", props)).isEqualTo("value");
     Assertions.assertThat(PropertyParser.parse("SELECT * FROM ${tableName:users} ORDER BY ${orderColumn:id}", props)).isEqualTo("SELECT * FROM members ORDER BY member_id");
 
@@ -60,6 +61,7 @@ class PropertyParserTest {
   @Test
   void applyDefaultValue() {
     Properties props = new Properties();
+    //设置可以使用默认值（：默认值）
     props.setProperty(PropertyParser.KEY_ENABLE_DEFAULT_VALUE, "true");
     Assertions.assertThat(PropertyParser.parse("${key:default}", props)).isEqualTo("default");
     Assertions.assertThat(PropertyParser.parse("SELECT * FROM ${tableName:users} ORDER BY ${orderColumn:id}", props)).isEqualTo("SELECT * FROM users ORDER BY id");
@@ -71,6 +73,7 @@ class PropertyParserTest {
   @Test
   void applyCustomSeparator() {
     Properties props = new Properties();
+    //设置自定义默认值分隔符
     props.setProperty(PropertyParser.KEY_ENABLE_DEFAULT_VALUE, "true");
     props.setProperty(PropertyParser.KEY_DEFAULT_VALUE_SEPARATOR, "?:");
     Assertions.assertThat(PropertyParser.parse("${key?:default}", props)).isEqualTo("default");
